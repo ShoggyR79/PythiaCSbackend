@@ -1,0 +1,30 @@
+{
+  "name": "pythiaccsback",
+  "version": "1.0.0",
+  "description": "\"# PythiaCSbackend\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShoggyR79/PythiaCSbackend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShoggyR79/PythiaCSbackend/issues"
+  },
+  "homepage": "https://github.com/ShoggyR79/PythiaCSbackend#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "cheerio": "^1.0.0-rc.10",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "hltv": "^3.3.3",
+    "hltv-api": "^3.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
