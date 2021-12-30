@@ -16,7 +16,13 @@ this repo serves as backend for training the prediction algorithm.
 
 `http://localhost:1400/api/pastMatches/${teamName}`; // parses same as above but with team name filter
 
-`http://localhost:1400/api/matchStats/${matchId}`; // get map ids from a given match id (in progress).
+`http://localhost:1400/api/teamMapStats`      // get team map stats, request body outlined below.
+    red.body = {
+        map: "mirage",
+        team: "navi"    
+    }
+
+`http://localhost:1400/api/getMapIdFromMatch/${matchId}`; // get map ids from a given match id (in progress).
 ```
 
 ## TODOs;
