@@ -85,8 +85,56 @@ const getMapStatsByTeam = async (req, res) => {
 
 const getMapStatsFromMapId = async (req, res) => {
     try {
-        const result = await HLTV.getMatchMapStats({ id: req.params.id });
-        res.status(200).send(result);
+        const { id } = req.params
+        const { data } = await axios.get(`https://www.hltv.org/stats/matches/mapstatsid/${id}/_`)
+        const $ = cheerio.load(data);
+        const highlights = $('.match-info-box');
+
+
+        let result = {
+            team1: {
+                name: highlights.find('.team-left').find('a').text(),
+                result: highlights.find('.team-left').find('div').text()
+            },
+            team2: {
+                name: highlights.find('.team-right').find('a').text(),
+                result: highlights.find('.team-right').find('div').text()
+            },
+            map: highlights.text().split('\n')[2]
+        };
+
+        const statTable = $('.stats-table')
+        const table = []
+        statTable.each((i, elem) => {
+            const playerRow = $(elem).find('tbody').find('tr');
+            teamArr = [];
+            playerRow.each((index, elem) => {
+                const statPlayer = $(elem).find('.st-player').find('a');
+                const player = {
+                    name: $(statPlayer).text(),
+                    id: $(statPlayer).attr('href').split('/')[3],
+                    kills: $(elem).find('.st-kills').text(),
+                    assists: $(elem).find('.st-assists').text(),
+                    deaths: $(elem).find('.st-deaths').text(),
+                    kdratio: $(elem).find('.st-kdratio').text(),
+                    adr: $(elem).find('.st-adr').text(),
+                    fkdiff: $(elem).find('.st-fkdiff').text(),
+                    rating: $(elem).find('.st-rating').text(),
+                }
+                teamArr.push(player);
+            })
+            table.push({
+                name: $(elem).find('.st-teamname').text(),
+                teamArr
+            })
+        })
+
+        let statsTable = {
+            result,
+            table
+        }
+
+        res.status(200).send(statsTable);
     } catch (error) {
         console.log(error)
         res.status(500).send("Error fetching match stats.");
@@ -119,7 +167,8 @@ module.exports = {
     getPastResults,
     getPastResultsByTeam,
     getMapStatsByTeam,
-    getMapIdFromMatchId
+    getMapIdFromMatchId,
+    getMapStatsFromMapId
 
 }
 

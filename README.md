@@ -23,6 +23,9 @@ this repo serves as backend for training the prediction algorithm.
     }
 
 `http://localhost:1400/api/getMapIdFromMatch/${matchId}`; // get map ids from a given match id (in progress).
+
+
+`http://localhost:1400/api/mapStats/${mapId}`; // get a match's map stats from a given map Id (can be found by calling endpoint above).
 ```
 
 ## TODOs;
