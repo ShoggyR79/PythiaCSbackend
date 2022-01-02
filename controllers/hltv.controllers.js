@@ -2,6 +2,8 @@ const { HLTV } = require('hltv')
 const SHLTV = require('hltv-api').default
 const axios = require('axios')
 const cheerio = require('cheerio')
+const {mapDict} = require('../Dictionaries/maps.dict')
+const {teamDict} = require('../Dictionaries/teams.dict')
 
 // get upcoming matches
 const getUpcomingMatches = async (req, res) => {
@@ -83,6 +85,26 @@ const getMapStatsByTeam = async (req, res) => {
     }
 }
 
+const getMapIdFromMatchId = async (req, res) => {
+    try {
+        const { id } = req.params
+        const { data } = await axios.get(`https://www.hltv.org/matches/${id}/_`)
+        const $ = cheerio.load(data);
+        const links = $('.flexbox-column')
+        let mapIds = [];
+        links.find('a').each((i, elem) => {
+            console.log(elem);
+            if (elem) {
+                mapIds.push($(elem).attr('href').split('/')[4])
+            }
+        })
+        res.status(200).send(mapIds);
+    } catch (error) {
+        console.log(error)
+        res.status(500).send("Error fetching match stats.");
+    }
+}
+
 const getMapStatsFromMapId = async (req, res) => {
     try {
         const { id } = req.params
@@ -140,26 +162,6 @@ const getMapStatsFromMapId = async (req, res) => {
         res.status(500).send("Error fetching match stats.");
     }
 
-}
-
-const getMapIdFromMatchId = async (req, res) => {
-    try {
-        const { id } = req.params
-        const { data } = await axios.get(`https://www.hltv.org/matches/${id}/_`)
-        const $ = cheerio.load(data);
-        const links = $('.flexbox-column')
-        let mapIds = [];
-        links.find('a').each((i, elem) => {
-            console.log(elem);
-            if (elem) {
-                mapIds.push($(elem).attr('href').split('/')[4])
-            }
-        })
-        res.status(200).send(mapIds);
-    } catch (error) {
-        console.log(error)
-        res.status(500).send("Error fetching match stats.");
-    }
 }
 
 module.exports = {

@@ -8,4 +8,4 @@ mapDict['mirage'] = '32'
 mapDict['overpass'] = '40'
 mapDict['vertigo'] = '46'
 
-module.exports = mapDict
+module.exports = {mapDict}

@@ -30,4 +30,4 @@ teamDict['DBL PONEY'] = '11003/dbl-poney'
 teamDict['paiN'] = '4773/pain'
 teamDict['GamerLegion'] = '9928/gamerlegion'
 
-module.exports = teamDict; 
+module.exports = {teamDict}; 
